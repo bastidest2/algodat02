@@ -33,7 +33,14 @@ void bubble_sort(std::vector<int>& list) {
 }
 
 void insertion_sort(std::vector<int>& list) {
-
+  if(list.size() < 2) {
+    return;
+  }
+  for(size_t i = 1; i < list.size(); i++) {
+    for(size_t j = i; j > 0 && list[j] < list[j - 1]; j--) {
+      std::swap(list[j], list[j + 1]);
+    }
+  }
 }
 
 void merge_sort(std::vector<int>& list) {
