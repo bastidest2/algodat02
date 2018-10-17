@@ -1,21 +1,33 @@
 #include <iostream>
 #include <map>
-#include <list>
+#include <vector>
 #include <functional>
+#include <utility>
 
-void selection_sort(std::list<int> const&) {
+void selection_sort(std::vector<int>& list) {
+  for(size_t i = 0; i < list.size(); i++) {
+    // find min element in range [i,size)
+    size_t pos = i;
+    int val = __INT_MAX__;
+    for(size_t j = i; j < list.size(); j++) {
+      if(list[j] < val) {
+        val = list[j];
+        pos = j;
+      }
+    }
+    std::swap(list[i], list[pos]);
+  }
+}
+
+void insertion_sort(std::vector<int>& list) {
 
 }
 
-void insertion_sort(std::list<int> const&) {
+void merge_sort(std::vector<int>& list) {
 
 }
 
-void merge_sort(std::list<int> const&) {
-
-}
-
-const std::map<std::string, std::function<void(std::list<int> const&)>> algorithms {
+const std::map<std::string, std::function<void(std::vector<int>&)>> algorithms {
   {"selection", selection_sort},
   {"insertion", insertion_sort},
   {"merge", merge_sort}
@@ -28,7 +40,7 @@ void print_avaliable_algos() {
   }
 }
 
-void print_list(const std::list<int>& list) {
+void print_list(const std::vector<int>& list) {
   for(int i : list) {
     std::cout << i << " ";
   }
@@ -51,7 +63,7 @@ int main(int argc, char* argv[]) {
     return 2;
   }
   
-  std::list<int> inputs;
+  std::vector<int> inputs;
   for(size_t i = 2; i < argc; i++) {
     try {
       inputs.push_back(std::stoi(argv[i]));
