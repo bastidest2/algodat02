@@ -19,6 +19,19 @@ void selection_sort(std::vector<int>& list) {
   }
 }
 
+void bubble_sort(std::vector<int>& list) {
+  if(list.size() < 2) {
+    return;
+  }
+  for(size_t i = 0; i < (list.size() - 1); i++) {
+    for(size_t j = 0; j < (list.size() - 1); j++) {
+      if(list[j] > list[j + 1]) {
+        std::swap(list[j], list[j + 1]);
+      }
+    }
+  }
+}
+
 void insertion_sort(std::vector<int>& list) {
 
 }
@@ -30,7 +43,8 @@ void merge_sort(std::vector<int>& list) {
 const std::map<std::string, std::function<void(std::vector<int>&)>> algorithms {
   {"selection", selection_sort},
   {"insertion", insertion_sort},
-  {"merge", merge_sort}
+  {"merge", merge_sort},
+  {"bubble", bubble_sort}
 };
 
 void print_avaliable_algos() {
