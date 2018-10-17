@@ -43,8 +43,33 @@ void insertion_sort(std::vector<int>& list) {
   }
 }
 
-void merge_sort(std::vector<int>& list) {
+std::vector<int> merge(const std::vector<int>& first, const std::vector<int>& second) {
+  if(first.size() == 0) {
+    return second;
+  }
+  if(second.size() == 0) {
+    return first;
+  }
+  if(first[0] < second[0]) {
+    std::vector<int> ret = merge(std::vector<int>{next(first.begin()), first.end()}, second);
+    ret.insert(ret.begin(), first[0]);
+    return ret;
+  } else {
+    std::vector<int> ret = merge(first, std::vector<int>{next(second.begin()), second.end()});
+    ret.insert(ret.begin(), second[0]);
+    return ret;
+  }
+}
 
+std::vector<int> merge_sort(std::vector<int>& list) {
+  if(list.size() <= 1) {
+    return list;
+  } else {
+    size_t splitPos = list.size() / 2;
+    std::vector<int> first {list.begin(), list.begin() + splitPos};
+    std::vector<int> second {list.begin() + splitPos, list.end()};
+    return merge(first, second);
+  }
 }
 
 const std::map<std::string, std::function<void(std::vector<int>&)>> algorithms {
