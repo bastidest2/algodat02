@@ -61,15 +61,19 @@ std::vector<int> merge(const std::vector<int>& first, const std::vector<int>& se
   }
 }
 
-std::vector<int> merge_sort(std::vector<int>& list) {
+const std::vector<int> merge_sort_impl(const std::vector<int>& list) {
   if(list.size() <= 1) {
     return list;
   } else {
     size_t splitPos = list.size() / 2;
     std::vector<int> first {list.begin(), list.begin() + splitPos};
     std::vector<int> second {list.begin() + splitPos, list.end()};
-    return merge(first, second);
+    return merge(merge_sort_impl(first), merge_sort_impl(second));
   }
+}
+
+void merge_sort(std::vector<int>& list) {
+  list = std::move(merge_sort_impl(list));
 }
 
 const std::map<std::string, std::function<void(std::vector<int>&)>> algorithms {
