@@ -98,11 +98,47 @@ void print_list(const std::vector<int>& list) {
   std::cout << std::endl;
 }
 
+bool is_list_sorted(const std::vector<int>& list) {
+  if(list.size() < 2) {
+    return true;
+  }
+
+  int last = list[0];
+
+  for(int i : list) {
+    if(last > i) {
+      return false;
+    }
+    last = i;
+  }
+
+  return true;
+}
+
 int main(int argc, char* argv[]) {
   if(argc < 2) {
-    std::cout << "Usage: algo02 <algorithm> [<number 1> [<number 2> [...]]]" << std::endl;
+    std::cout << "Usage: algo02 (test | <algorithm> [<number 1> [<number 2> [...]]])" << std::endl;
     print_avaliable_algos();
     return 2;
+  }
+
+  if(std::string{argv[1]} == std::string{"test"}) {
+    std::vector<std::vector<int>> testCases {
+      #include "./test_cases.raw"
+    };
+    for(const auto& algo : algorithms) {
+      std::cout << "Testing sorting algorithm \"" << algo.first << "\"" << std::endl;
+      for(size_t i = 0; i < testCases.size(); i++) {
+        std::printf("  TC%02d\t", static_cast<int>(i));
+        algo.second(testCases[i]);
+        if(is_list_sorted(testCases[i])) {
+          std::cout << "OK" << std::endl;
+        } else {
+          std::cout << "ERR" << std::endl;
+        }
+      }
+    }
+    return 0;
   }
 
   try {
@@ -114,7 +150,7 @@ int main(int argc, char* argv[]) {
   }
   
   std::vector<int> inputs;
-  for(size_t i = 2; i < argc; i++) {
+  for(size_t i = 2; i < static_cast<size_t>(argc); i++) {
     try {
       inputs.push_back(std::stoi(argv[i]));
     } catch(const std::exception& e) {
