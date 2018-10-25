@@ -3,6 +3,7 @@
 #include <vector>
 #include <functional>
 #include <utility>
+#include <chrono>
 
 void selection_sort(std::vector<int>& list) {
   for(size_t i = 0; i < list.size(); i++) {
@@ -130,9 +131,11 @@ int main(int argc, char* argv[]) {
       std::cout << "Testing sorting algorithm \"" << algo.first << "\"" << std::endl;
       for(size_t i = 0; i < testCases.size(); i++) {
         std::printf("  TC%02d\t", static_cast<int>(i));
+        const auto start = std::chrono::steady_clock::now();
         algo.second(testCases[i]);
+        const auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now() - start);
         if(is_list_sorted(testCases[i])) {
-          std::cout << "OK" << std::endl;
+          std::cout << "OK: (" << duration.count() << "ns)" << std::endl;
         } else {
           std::cout << "ERR" << std::endl;
         }
